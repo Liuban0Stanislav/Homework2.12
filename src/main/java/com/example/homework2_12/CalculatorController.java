@@ -38,7 +38,7 @@ public class CalculatorController {
                           @RequestParam("num2") double num2){
         try {
             return "<h1>" + num1 + " : " + num2 + " = " + calculatorService.divide(num1, num2) + "</h1>";
-        } catch (NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             throw new RuntimeException("Деление на 0 невозможно");
         }
     }
