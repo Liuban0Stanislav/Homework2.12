@@ -1,14 +1,14 @@
 package com.example.homework2_12;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/calculator")
 public class CalculatorController {
-    private CalculatorService calculatorService;
+    private final CalculatorService calculatorService;
 
     public CalculatorController(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
@@ -36,6 +36,10 @@ public class CalculatorController {
     @GetMapping("/divide")
     public String divide (@RequestParam("num1") double num1,
                           @RequestParam("num2") double num2){
-        return "<h1>" + num1 + " : " + num2 + " = " + calculatorService.divide(num1, num2) + "</h1>";
+        try {
+            return "<h1>" + num1 + " : " + num2 + " = " + calculatorService.divide(num1, num2) + "</h1>";
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Деление на 0 невозможно");
+        }
     }
 }
